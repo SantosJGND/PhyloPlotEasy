@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Phylogenetic Tree Plotter</title>
+  </head>
+  <body>
+    <h1>Phylogenetic Tree Plotter</h1>
+    <form method="POST" enctype="multipart/form-data">
+      <label>Metadata File:</label>
+      <input type="file" name="metadata_file" required /><br /><br />
+      <label>Newick File:</label>
+      <input type="file" name="newick_file" required /><br /><br />
+      <label>Marker Column:</label>
+      <input type="text" name="marker_column" required /><br /><br />
+      <label>Highlight Column:</label>
+      <input type="text" name="highlight_column" /><br /><br />
+      <label>Sample Label Column:</label>
+      <input type="text" name="label_column" required /><br /><br />
+      <label>Label Size (1-20):</label>
+      <input
+        type="number"
+        name="label_size"
+        min="1"
+        max="20"
+        required
+      /><br /><br />
+      <label>Tip Size (1-10):</label>
+      <input
+        type="number"
+        name="tip_size"
+        min="1"
+        max="10"
+        required
+      /><br /><br />
+      <label>Highlight Values (comma-separated):</label>
+      <input type="text" name="highlight_values" /><br /><br />
+      <button type="submit">Generate Plot</button>
+    </form>
+  </body>
+</html>

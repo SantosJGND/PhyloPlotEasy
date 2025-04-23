@@ -1,0 +1,8 @@
+*.png
+*.pdf
+*.jpg
+*.tsv
+*.nwk
+
+*.venv/
+data/
