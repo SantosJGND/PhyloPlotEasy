@@ -32,13 +32,21 @@ The **Phylogenetic Tree Plotter GUI** is a Python-based graphical user interface
 2. Create conda environment:
 
 ```bash
-conda create --name <env> --file conda-requirements.txt
+conda create --name <env>
+conda activate <env>
 ```
 
-3. Activate the environment
+3. Install conda packages:
 
 ```bash
-conda activate <env>
+conda install bioconda::bioconductor-ggtree
+conda install bioconda::bioconductor-ggtreeextra
+```
+
+4. Create python environment:
+
+```bash
+python -m pip install pandas streamlit flask
 ```
 
 ### Usage

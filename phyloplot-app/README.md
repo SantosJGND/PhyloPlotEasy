@@ -37,25 +37,21 @@ PhyloPlot is a Python-based browser application designed to visualize phylogenet
 2. Create conda environment:
 
 ```bash
-conda create --name <env> --file conda-requirements.txt
-```
-
-3. Activate the environment
-
-```bash
+conda create --name <env>
 conda activate <env>
 ```
 
-3. Install R packages:
+3. Install conda packages:
 
 ```bash
-Rscript -e "install.packages(c('ggtree', 'ggplot2', 'ggtreeExtra'))"
+conda install bioconda::bioconductor-ggtree
+conda install bioconda::bioconductor-ggtreeextra
 ```
 
 4. Create python environment:
 
 ```bash
-python -m pip install -r requirements.txt
+python -m pip install pandas streamlit flask
 ```
 
 ## Usage
