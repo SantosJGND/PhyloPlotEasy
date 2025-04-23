@@ -87,7 +87,7 @@ with st.container():
                 highlight_values_str = ",".join(highlight_values) if highlight_values else "NA"
 
                 # Determine the output format
-                output_format = "png" if save_as_png else "pdf" if save_as_pdf else "svg" if save_as_svg else "tiff" if save_as_tiff else None
+                output_format = "png" if save_as_png else "pdf" if save_as_pdf else "svg" if save_as_svg else "tiff" if save_as_tiff else "png"
                 output_file = os.path.join(session_folder, f"phylogenetic_tree.{output_format}")
 
                 # Run the R script
