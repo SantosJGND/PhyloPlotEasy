@@ -16,7 +16,7 @@ highlights_list <- args[5]
 label_column <- args[6]
 letter_size <- as.numeric(args[7])
 marker_size <- as.numeric(args[8])
-output_format <- args[9]
+output_file <- args[9]
 
 if (highlight_column == "NA") {
   highlight_column <- NULL
@@ -64,6 +64,6 @@ for (highlight in highlights_list) {
 }
 
 ggsave(
-  filename = paste0("phylogenetic_tree.", output_format),
+  filename = output_file,
   plot = dew, width = 12, height = 9, dpi = 300
 )

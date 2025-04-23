@@ -3,6 +3,9 @@
 *.jpg
 *.tsv
 *.nwk
+*.tiff
+*.svg
 
 *.venv/
 data/
+*tmp/

@@ -46,6 +46,7 @@ conda activate <env>
 ```bash
 conda install bioconda::bioconductor-ggtree
 conda install bioconda::bioconductor-ggtreeextra
+conda install conda-forge::r-svglite
 ```
 
 4. Create python environment:

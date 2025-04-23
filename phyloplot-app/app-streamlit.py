@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import subprocess
+import uuid
+import os
 
 st.set_page_config(
     page_title="Phylogenetic Tree Plotter",
@@ -52,25 +54,41 @@ with st.container():
         )
 
         # Buttons for generating and saving plots
-        generate_plot = st.button("Generate Plot")
-        save_as_png = st.button("Save as PNG")
-        save_as_pdf = st.button("Save as PDF")
+        button_col1, button_col2, button_col3, button_col4, button_col5 = st.columns(5)
+        with button_col1:
+            generate_plot = st.button("Generate Plot")
+        with button_col2:
+            save_as_png = st.button("Save as PNG")
+        with button_col3:
+            save_as_pdf = st.button("Save as PDF")
+        with button_col4:
+            save_as_svg = st.button("Save as SVG")
+        with button_col5:
+            save_as_tiff = st.button("Save as TIFF")
 
     # Right column: Display the plot
     with col2:
-        if generate_plot or save_as_png or save_as_pdf:
+        if generate_plot or save_as_png or save_as_pdf or save_as_svg or save_as_tiff:
             if metadata_file and newick_file and marker_column and label_column:
-                # Save uploaded files
-                with open("metadata.tsv", "wb") as f:
+                # Generate a unique session ID
+                session_id = str(uuid.uuid4())
+                session_folder = f"tmp/session_{session_id}"
+                os.makedirs(session_folder, exist_ok=True)
+
+                # Save uploaded files in the session folder
+                metadata_path = os.path.join(session_folder, "metadata.tsv")
+                newick_path = os.path.join(session_folder, "tree.nwk")
+                with open(metadata_path, "wb") as f:
                     f.write(metadata_file.getbuffer())
-                with open("tree.nwk", "wb") as f:
+                with open(newick_path, "wb") as f:
                     f.write(newick_file.getbuffer())
 
                 # Prepare highlight values
                 highlight_values_str = ",".join(highlight_values) if highlight_values else "NA"
 
                 # Determine the output format
-                output_format = "png" if save_as_png else "pdf" if save_as_pdf else "png"
+                output_format = "png" if save_as_png else "pdf" if save_as_pdf else "svg" if save_as_svg else "tiff" if save_as_tiff else None
+                output_file = os.path.join(session_folder, f"phylogenetic_tree.{output_format}")
 
                 # Run the R script
                 try:
@@ -78,30 +96,29 @@ with st.container():
                         [
                             "Rscript",
                             "ggtree_trial.R",
-                            "metadata.tsv",
-                            "tree.nwk",
+                            metadata_path,
+                            newick_path,
                             marker_column,
                             highlight_column if highlight_column != "None" else "NA",
                             highlight_values_str,
                             label_column,
                             str(label_size),
                             str(tip_size),
-                            output_format,
+                            output_file,
                         ],
                         check=True,
                     )
                     if output_format == "png":
-                        st.image("phylogenetic_tree.png", caption="Generated Phylogenetic Tree")
+                        st.image(output_file, caption="Generated Phylogenetic Tree")
 
-                    else:
-                        st.success("PDF saved as phylogenetic_tree.pdf")
+                    st.success(f"Plot generated successfully! You can download it below.")
 
-                    with open(f"phylogenetic_tree.{output_format}", "rb") as file:
+                    with open(output_file, "rb") as file:
                         st.download_button(
                             label=f"Download {output_format.upper()}",
                             data=file,
-                            file_name="phylogenetic_tree." + output_format,
-                            mime=f"image/{output_format}" if output_format == "png" else "application/pdf",
+                            file_name=f"phylogenetic_tree.{output_format}",
+                            mime=f"image/{output_format}" if output_format == "png" else f"application/{output_format}",
                         )
 
                 except subprocess.CalledProcessError as e:
