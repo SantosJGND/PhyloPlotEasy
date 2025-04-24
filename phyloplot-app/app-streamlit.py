@@ -53,6 +53,10 @@ with st.container():
             help="Select values to highlight from the chosen highlight column."
         )
 
+        # Add a switch for colorblind mode
+        colorblind_mode = st.checkbox("Enable Colorblind Mode", value=False, help="Enable colorblind-friendly (deuteranopia) colors.")
+
+
         # Buttons for generating and saving plots
         button_col1, button_col2, button_col3, button_col4, button_col5 = st.columns(5)
         with button_col1:
@@ -105,6 +109,7 @@ with st.container():
                             str(label_size),
                             str(tip_size),
                             output_file,
+                            str(colorblind_mode).lower(), 
                         ],
                         check=True,
                     )
