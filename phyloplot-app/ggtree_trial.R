@@ -19,10 +19,11 @@ letter_size <- as.numeric(args[7])
 marker_size <- as.numeric(args[8])
 output_file <- args[9]
 colorblind <- as.logical(args[10])
+axis_scale <- as.logical(args[11])
 
 # Constants
 color_palette <- "Set2" # Color palette for markers
-plot_margin <- unit(c(16, 90, 15, 10), "mm") # Plot margins
+plot_margin <- unit(c(16, 90, 5, 10), "mm") # Plot margins
 highlight_fill <- "red" # Highlight fill color
 highlight_alpha <- 0.2 # Highlight transparency
 plot_width <- 12 # Plot width
@@ -97,8 +98,18 @@ tree2 <- full_join(tree, metadata_df, by = "label")
 
 # Create base tree plot
 p <- ggtree(tree) +
-  coord_cartesian(clip = "off") +
-  theme_tree2(plot.margin = plot_margin)
+  coord_cartesian(clip = "off") + theme(plot.margin = plot_margin)
+
+if (axis_scale == TRUE) {
+  p <- p + theme_tree2(plot.margin = plot_margin)
+} else {
+  p <- p + geom_treescale(
+    fontsize = 6,
+    linesize = 2,
+    # x = max(tree$edge.length) + 0.5, # Adjust x position to move it to the right
+    y = -1.5 # Adjust y position to place it below the tree
+  )
+}
 
 # Add metadata to the plot
 dew <- p %<+% metadata_df +

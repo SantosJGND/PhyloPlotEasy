@@ -54,8 +54,11 @@ with st.container():
         )
 
         # Add a switch for colorblind mode
-        colorblind_mode = st.checkbox("Enable Colorblind Mode", value=False, help="Enable colorblind-friendly (deuteranopia) colors.")
-
+        btn_col1, btn_col2 = st.columns(2)
+        with btn_col1:
+            colorblind_mode = st.checkbox("Enable Colorblind Mode", value=False, help="Enable colorblind-friendly (deuteranopia) colors.")
+        with btn_col2:
+            scale_type = st.checkbox("Full scale", value=False, help="Display full divergence.")
 
         # Buttons for generating and saving plots
         button_col1, button_col2, button_col3, button_col4, button_col5 = st.columns(5)
@@ -110,6 +113,7 @@ with st.container():
                             str(tip_size),
                             output_file,
                             str(colorblind_mode).lower(), 
+                            str(scale_type).lower(), 
                         ],
                         check=True,
                     )
