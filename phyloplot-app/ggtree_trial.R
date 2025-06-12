@@ -104,8 +104,8 @@ if (axis_scale == TRUE) {
   p <- p + theme_tree2(plot.margin = plot_margin)
 } else {
   p <- p + geom_treescale(
-    fontsize = 6,
-    linesize = 2,
+    fontsize = 6, linesize = 2, color = "red",
+    # width = 1, color = "red", x = 0,
     # x = max(tree$edge.length) + 0.5, # Adjust x position to move it to the right
     y = -1.5 # Adjust y position to place it below the tree
   )
