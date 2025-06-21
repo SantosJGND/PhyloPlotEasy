@@ -1,10 +1,9 @@
-FROM rocker/r-base:4.3.1
+FROM rocker/r-base:4.4.2
 
 WORKDIR /app
 
 COPY app.py ggtree_trial.R requirements.txt ./
 
-RUN Rscript -e "install.packages(c('ggtree', 'ggtreeExtra', 'svglite'))"
 
 RUN apt-get update && apt-get install -y \
     pip \
@@ -13,7 +12,15 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     libssl-dev \
     libxml2-dev \
+    r-cran-devtools \
     && rm -rf /var/lib/apt/lists/*
+
+
+RUN Rscript -e "install.packages('BiocManager')"
+RUN Rscript -e "install.packages('systemfonts')"
+RUN Rscript -e "BiocManager::install(c('ggplot2', 'dplyr', 'tidyr', 'ape', 'ggtree'))"
+RUN Rscript -e "BiocManager::install(c('ggtreeExtra', 'svglite', 'Polychrome'))"
+
 
 
 RUN python3 -m venv /app/venv && \
