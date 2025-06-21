@@ -70,8 +70,14 @@ if (!marker_column %in% colnames(metadata)) {
     } else if (num_unique_markers <= 32) {
       color_palette <- glasbey.colors(num_unique_markers)
       names(color_palette) <- unique_markers
-    } else {
+    } else if (num_unique_markers <= 36) {
       color_palette <- palette36.colors(num_unique_markers)
+      names(color_palette) <- unique_markers
+    } else if (num_unique_markers <= 50) {
+      color_palette <- createPalette(num_unique_markers, c("#010101"), M = 1000)
+      names(color_palette) <- unique_markers
+    } else {
+      color_palette <- createPalette(num_unique_markers, c("#010101"), M = 1000)
       names(color_palette) <- unique_markers
     }
   } else {
@@ -82,8 +88,6 @@ if (!marker_column %in% colnames(metadata)) {
 if (colorblind == TRUE) {
   color_palette <- colorDeficit(color_palette, "deut")
 }
-
-cat(color_palette, "\n")
 
 metadata_df <- data.frame(
   label = metadata[[id_column]],
